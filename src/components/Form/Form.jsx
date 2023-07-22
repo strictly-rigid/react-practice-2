@@ -3,6 +3,8 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { nanoid } from 'nanoid';
 
+import { FormWrapper } from './Form.styled';
+
 class Form extends Component {
   state = {
     ukr: '',
@@ -17,13 +19,25 @@ class Form extends Component {
 
   handleFormSubmit = e => {
     e.preventDefault();
+
+    if (this.state.eng.trim() === '' || this.state.ukr.trim() === '') {
+      alert('Please, fill all fields!');
+      return;
+    }
+
     const newWord = { ...this.state, id: nanoid(5) };
+
     this.props.addWord(newWord);
+
+    this.setState({
+      ukr: '',
+      eng: '',
+    });
   };
 
   render() {
     return (
-      <form onSubmit={this.handleFormSubmit}>
+      <FormWrapper onSubmit={this.handleFormSubmit}>
         <TextField
           id="ukrainian"
           name="ukr"
@@ -44,7 +58,7 @@ class Form extends Component {
         <Button type="submit" variant="contained">
           Add
         </Button>
-      </form>
+      </FormWrapper>
     );
   }
 }
